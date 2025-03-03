@@ -36,8 +36,8 @@ def fetch_gdp_data():
                 df = df[relevant_columns]
                 df = df.rename(columns={df.columns[0]: "Country", df.columns[1]: "GDP (Millions USD)"})
                 df = df.dropna(subset=["GDP (Millions USD)"])
-                df["GDP (Millions USD)"] = df["GDP (Millions USD)"].astype(str).str.replace(',', '', regex=True).astype(float)
-                df = df.dropna(subset=["GDP (Millions USD)"])
+                df["GDP (Millions USD)"] = pd.to_numeric(df["GDP (Millions USD)"].astype(str).str.replace(',', '', regex=True), errors='coerce')
+                df = df.dropna(subset=["GDP (Millions USD)"])  # Drop any remaining NaN values
                 gdp_data[source] = df
                 break
 
